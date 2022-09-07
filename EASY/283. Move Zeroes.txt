@@ -29,22 +29,58 @@ Submissions:3,061,717
 
 class Solution {
 public:
-    void moveZeroes(vector<int>& nums) {
+
+//     // APPROACH 1 :- delete all the zeros in vector using erase stl functon.
+    
+//     void moveZeroes(vector<int>& nums) {
         
-        int count=0;
+//         int count=0;
         
-        for(int i=0 ; i<nums.size() ; i++)  {
+//         for(int i=0 ; i<nums.size() ; i++)  {
             
-            if(nums[i]==0)  {
-                count++;
-                nums.erase(nums.begin()+i);
-                i--;
-            }            
+//             if(nums[i]==0)  {
+//                 count++;
+//                 nums.erase(nums.begin()+i);
+//                 i--;
+//             }            
+//         }
+        
+//         for(int i=0; i<count; i++ ) {
+//             nums.push_back(0);
+//         }
+        
+//     }
+    
+    // APPROACH 2 :- find first occurence of 0, and from there swap it with it next non 0 number and do this till end of vector.
+    
+    void moveZeroes(vector<int>& nums)      {
+    
+        //finding the first zero occurence
+        int k = 0;
+        int n = nums.size();
+        
+        while (k < n) {
+            if (nums[k] == 0) 
+              break; 
+            else 
+              k = k + 1;
         }
         
-        for(int i=0; i<count; i++ ) {
-            nums.push_back(0);
+        int i = k, j = k + 1;
+
+        //swapping zeros with their next non-zero number.
+        while(i < n && j < n) {
+            
+            if (nums[j] != 0) {
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                i++;
+            }
+            j++;
+        
         }
         
     }
+    
 };
