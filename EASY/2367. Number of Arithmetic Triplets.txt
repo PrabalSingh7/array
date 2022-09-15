@@ -1,0 +1,87 @@
+    
+    QUESTION :-
+
+2367. Number of Arithmetic Triplets
+Easy
+
+You are given a 0-indexed, strictly increasing integer array nums and a positive integer diff. A triplet (i, j, k) is an arithmetic triplet if the following conditions are met:
+i < j < k,
+nums[j] - nums[i] == diff, and
+nums[k] - nums[j] == diff.
+Return the number of unique arithmetic triplets.
+  
+ Example 1:
+Input: nums = [0,1,4,6,7,10], diff = 3
+Output: 2
+Explanation:
+(1, 2, 4) is an arithmetic triplet because both 7 - 4 == 3 and 4 - 1 == 3.
+(2, 4, 5) is an arithmetic triplet because both 10 - 7 == 3 and 7 - 4 == 3. 
+
+ Example 2:
+Input: nums = [4,5,6,7,8,9], diff = 2
+Output: 2
+Explanation:
+(0, 2, 4) is an arithmetic triplet because both 8 - 6 == 2 and 6 - 4 == 2.
+(1, 3, 5) is an arithmetic triplet because both 9 - 7 == 2 and 7 - 5 == 2.
+ 
+ Constraints:
+3 <= nums.length <= 200
+0 <= nums[i] <= 200
+1 <= diff <= 50
+nums is strictly increasing.
+
+Accepted:37,937
+Submissions:45,091
+
+
+    ANSWER :-
+
+class Solution {
+public:
+    
+//     // BRUTE FORCE triple loop approach.  
+//     int arithmeticTriplets(vector<int>& nums, int diff) {
+        
+//         int res = 0;
+//         int n = nums.size();
+        
+//         for(int i=0; i<n-2; i++)  {
+//             for(int j=i+1; j<n-1; j++)  {
+//                 if(nums[j]-nums[i]==diff) {
+//                     for(int k=j+1; k<n; k++)    {
+//                         if(nums[k]-nums[j]==diff)   {
+//                             res++;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+        
+//         return res;
+        
+//     }
+    
+    // APPRAOCH :- here constrains are for nums[i] is 0 to 200 inclusive so let's create array of 201 size and mark it one in arr if it's present in nums.
+// then traverse nums and check if nums[i] - diff >= 0 and nums[i] + diff <= 200 and also check for nums[i] - diff & nums[i] + diff is present in nums by checking marking in array.
+// And i < j < k always satisfy because given nums is in sorted order.
+    // T.C. = O(N)   &&   S.C. = O(N)
+
+
+    int arithmeticTriplets(vector<int>& nums, int diff) {
+        
+        int arr[201] = {0};
+        
+        for(auto it : nums)
+            arr[it]++;
+        
+        int ans=0;
+        
+        for(auto it : nums){
+            if(it-diff>=0 && it+diff<=200 && arr[it-diff] && arr[it+diff])
+                ans++;
+        }
+        
+        return ans;
+    }
+
+};
