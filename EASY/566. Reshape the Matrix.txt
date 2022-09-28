@@ -1,0 +1,95 @@
+566. Reshape the Matrix
+Easy
+
+2744
+
+312
+
+Add to List
+
+Share
+In MATLAB, there is a handy function called reshape which can reshape an m x n matrix into a new one with a different size r x c keeping its original data.
+
+You are given an m x n matrix mat and two integers r and c representing the number of rows and the number of columns of the wanted reshaped matrix.
+
+The reshaped matrix should be filled with all the elements of the original matrix in the same row-traversing order as they were.
+
+If the reshape operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.
+
+ 
+
+Example 1:
+
+
+Input: mat = [[1,2],[3,4]], r = 1, c = 4
+Output: [[1,2,3,4]]
+Example 2:
+
+
+Input: mat = [[1,2],[3,4]], r = 2, c = 4
+Output: [[1,2],[3,4]]
+ 
+
+Constraints:
+
+m == mat.length
+n == mat[i].length
+1 <= m, n <= 100
+-1000 <= mat[i][j] <= 1000
+1 <= r, c <= 300
+Accepted
+289,288
+Submissions
+461,867
+
+
+class Solution {
+public:
+    
+    // APPRAOCH 1 :    t.c = (m*n)        s.c = O(m*n) 
+
+    vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+        
+        int R = mat.size();
+        int C = mat[0].size();
+        
+        if(R*C != r*c)
+            return mat;
+        
+        vector<int> store;
+        for(int i=0; i<R; i++)  {
+            for(int j=0; j<C; j++)  {
+                store.push_back(mat[i][j]);
+            }
+        }
+        
+        vector<vector<int>> res;
+        int k=0;
+        int N = store.size();
+        vector<int> level;
+        
+        while(k!=N)  {
+            level.push_back(store[k++]);
+            if(k%c==0)  {
+                res.push_back(level);
+                level.clear();
+            }
+        }
+        
+        return res;
+    }
+    
+    
+// APPRAOCH 2 :    t.c = (m*n)        s.c = O(1) 
+
+    
+    vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+        int m = size(mat), n = size(mat[0]), total = m * n;
+        if(r * c != total) return mat;
+        vector<vector<int>> ans(r, vector<int>(c));
+        for(int i = 0; i < total; i++) 
+            ans[i / c][i % c] = mat[i / n][i % n];
+        return ans;
+    }
+};
+};
