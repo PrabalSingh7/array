@@ -54,6 +54,14 @@ Submissions
 
 
 
+    // APPROACH 1 : using max heap , every time we will pop 2 greatest elements and -- them by 1 each and push them back if they still > 0, and do this till maxh size != 0. 
+        // t.c - O(nlogn)    s.c - O(1)
+    
+    
+    // APPRAOCH 2 :    t.c - O(1)   s.c - O(1)
+        // mathematical approach :)
+    
+
 
 class Solution {
 public:
