@@ -1,0 +1,84 @@
+717. 1-bit and 2-bit Characters
+Easy
+
+718
+
+1831
+
+Add to List
+
+Share
+We have two special characters:
+
+The first character can be represented by one bit 0.
+The second character can be represented by two bits (10 or 11).
+Given a binary array bits that ends with 0, return true if the last character must be a one-bit character.
+
+ 
+
+Example 1:
+
+Input: bits = [1,0,0]
+Output: true
+Explanation: The only way to decode it is two-bit character and one-bit character.
+So the last character is one-bit character.
+Example 2:
+
+Input: bits = [1,1,1,0]
+Output: false
+Explanation: The only way to decode it is two-bit character and two-bit character.
+So the last character is not one-bit character.
+ 
+
+Constraints:
+
+1 <= bits.length <= 1000
+bits[i] is either 0 or 1.
+Accepted
+110,021
+Submissions
+239,187
+
+
+
+class Solution {
+public:
+    bool isOneBitCharacter(vector<int>& bits) {
+        
+        int n = bits.size();
+        
+        if(n==1)
+            return true;
+        else if(n==2)   {
+            if(bits[0]==0)
+                return true;
+            return false;
+        }
+        
+        for(int i=0; i<n-1; i++)    {
+            if(i==n-3)  {
+                cout<<"c1 \n";
+                if(bits[i]==0)
+                    continue;
+                else if(bits[i]==1) 
+                    return true;
+            }
+            if(i==n-2)  {
+                cout<<"c2 \n";
+                if(bits[i]==0)
+                    return true;
+                else 
+                    return false;
+            }
+            if(bits[i]==0)  {
+                cout<<"c3 \n";
+                continue;
+            }
+            else if(bits[i]==1) {
+                cout<<"c4 \n";
+                i++;
+            }
+        }
+        return true;
+    }
+};
