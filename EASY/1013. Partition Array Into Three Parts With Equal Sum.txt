@@ -1,0 +1,102 @@
+1013. Partition Array Into Three Parts With Equal Sum
+Easy
+
+1307
+
+128
+
+Add to List
+
+Share
+Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums.
+
+Formally, we can partition the array if we can find indexes i + 1 < j with (arr[0] + arr[1] + ... + arr[i] == arr[i + 1] + arr[i + 2] + ... + arr[j - 1] == arr[j] + arr[j + 1] + ... + arr[arr.length - 1])
+
+ 
+
+Example 1:
+
+Input: arr = [0,2,1,-6,6,-7,9,1,2,0,1]
+Output: true
+Explanation: 0 + 2 + 1 = -6 + 6 - 7 + 9 + 1 = 2 + 0 + 1
+Example 2:
+
+Input: arr = [0,2,1,-6,6,7,9,-1,2,0,1]
+Output: false
+Example 3:
+
+Input: arr = [3,3,6,5,-2,2,5,1,-9,4]
+Output: true
+Explanation: 3 + 3 = 6 = 5 - 2 + 2 + 5 + 1 - 9 + 4
+ 
+
+Constraints:
+
+3 <= arr.length <= 5 * 104
+-104 <= arr[i] <= 104
+Accepted
+71,543
+Submissions
+164,432
+
+
+class Solution {
+public:
+    bool canThreePartsEqualSum(vector<int>& arr) {
+        
+        int n = arr.size();
+        int s = 0;
+        
+        for(auto it : arr)
+            s+=it;
+        
+        if(s%3!=0)
+            return false;
+        
+        int check = s/3;
+        // cout<<check<<"\n";
+        int i=0;
+        int curr = 0;
+        int count = 0;
+        
+        for(i=0; i<n; i++)  {
+            curr += arr[i];
+            if(curr == check)   {
+                count++;
+                break;
+            }
+            if(i == n-1)
+                return false;
+        }
+        
+        // cout<<i<<"\n";        
+        int j=i+1;
+        curr = 0;
+        for(j=i+1; j<n; j++)    {
+            curr += arr[j];
+            if(curr == check)   {
+                count++;
+                break;
+            }
+            if(j == n-1)
+                return false;            
+        }
+        
+        // cout<<j<<"\n";        
+        int k=j+1;
+        curr = 0;
+        for(k=j+1; k<n; k++)    {
+            curr += arr[k];
+            if(curr == check)   {
+                count++;
+                break;
+            }
+            if(j == n-1 && curr != check)
+                return false;            
+        }        
+        
+        if(count==3)
+            return true;
+        return false;
+    }
+};
