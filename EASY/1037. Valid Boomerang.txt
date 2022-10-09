@@ -1,0 +1,97 @@
+1037. Valid Boomerang
+Easy
+
+275
+
+405
+
+Add to List
+
+Share
+Given an array points where points[i] = [xi, yi] represents a point on the X-Y plane, return true if these points are a boomerang.
+
+A boomerang is a set of three points that are all distinct and not in a straight line.
+
+ 
+
+Example 1:
+
+Input: points = [[1,1],[2,3],[3,2]]
+Output: true
+Example 2:
+
+Input: points = [[1,1],[2,2],[3,3]]
+Output: false
+ 
+
+Constraints:
+
+points.length == 3
+points[i].length == 2
+0 <= xi, yi <= 100
+Accepted
+35,997
+Submissions
+96,036
+
+
+class Solution {
+public:
+    bool isBoomerang(vector<vector<int>>& points) {
+        
+        //checking if all are distinct or not
+        set<pair<int,int>> s;
+        for(int i=0; i<3; i++)  {
+            pair<int,int> p = make_pair(points[i][0], points[i][1]);
+            if(s.find(p) != s.end())    {
+                cout<<"not distinct";
+                return false;
+            }
+            s.insert(p);
+        }
+        
+        
+        //checking if they are in a straight line
+        int n = 3;
+        unordered_map<int,int> mp;
+        for(int i=0; i<n; i++)  
+            mp[points[i][0]]++;
+                
+        for(auto it:mp) {
+            int ele = it.second;
+            if(ele>1 && ele==n) {
+                cout<<"same x line";
+                return false;
+            }
+            else if(ele>1 && ele!=n)    {
+                cout<<"not same x line";
+                return true;
+            }
+        }
+        
+        // double slope1 = double( ( points[1][1]-points[0][1] ) / ( points[1][0]-points[0][0] ) );
+        // double slope2 = double( ( points[2][1]-points[1][1] ) / ( points[2][0]-points[1][0] ) );
+        // double slope3 = double( ( points[2][1]-points[0][1] ) / ( points[2][0]-points[0][0] ) );
+
+        // cout<<slope1<<" "<<slope2<<" "<<slope3;
+        
+        double ym1 = (points[2][1]-points[0][1]) ;
+        double xm1 = (points[2][0]-points[0][0]) ;
+        double s1 = ym1/xm1; 
+        cout<<ym1<<" "<<xm1<<" "<<s1;
+        
+        double ym2 = (points[2][1]-points[1][1]) ;
+        double xm2 = (points[2][0]-points[1][0]) ;
+        double s2 = ym2/xm2; 
+        cout<<ym2<<" "<<xm2<<" "<<s2;
+        
+        double ym3 = (points[1][1]-points[0][1]) ;
+        double xm3 = (points[1][0]-points[0][0]) ;
+        double s3 = ym3/xm3; 
+        cout<<ym3<<" "<<xm3<<" "<<s3;
+        
+        if(s1 != s2 && s2 != s3 && s1 != s3)
+            return true;
+        return false;
+    }
+};
