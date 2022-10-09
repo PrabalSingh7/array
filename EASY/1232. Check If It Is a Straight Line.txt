@@ -1,0 +1,79 @@
+1232. Check If It Is a Straight Line
+Easy
+
+1092
+
+162
+
+Add to List
+
+Share
+You are given an array coordinates, coordinates[i] = [x, y], where [x, y] represents the coordinate of a point. Check if these points make a straight line in the XY plane.
+
+ 
+
+ 
+
+Example 1:
+
+
+
+Input: coordinates = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]
+Output: true
+Example 2:
+
+
+
+Input: coordinates = [[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]
+Output: false
+ 
+
+Constraints:
+
+2 <= coordinates.length <= 1000
+coordinates[i].length == 2
+-10^4 <= coordinates[i][0], coordinates[i][1] <= 10^4
+coordinates contains no duplicate point.
+Accepted
+131,841
+Submissions
+319,578
+
+
+class Solution {
+public:
+    bool checkStraightLine(vector<vector<int>>& c) {
+        
+        int n = c.size();
+        unordered_map<int,int> mp;
+        
+        for(int i=0; i<n; i++)  
+            mp[c[i][0]]++;
+        
+
+        
+        for(auto it:mp) {
+            int ele = it.second;
+            if(ele>1 && ele!=n) {
+                cout<<"cf";
+                return false;
+            }
+            else if(ele>1 && ele==n)    {
+                cout<<"ct";
+                return true;
+            }
+        }
+        
+        double slope = ( c[n-1][1]-c[0][1] ) / ( c[n-1][0]-c[0][0] ) ;
+        // cout<<"slope = "<<slope<<"\n";
+        
+        for(int i=0; i<n-1; i++)    {
+            double cs = ( c[i+1][1]-c[i][1] ) / ( c[i+1][0]-c[i][0] ) ;
+            // cout<<i<<" "<<cs<<"\n";
+            if(cs!=slope)
+                return false;
+        }
+        
+        return true;
+    }
+};
