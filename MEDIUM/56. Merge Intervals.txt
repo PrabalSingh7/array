@@ -1,0 +1,126 @@
+56. Merge Intervals
+Medium
+17.5K
+609
+Companies
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+ 
+
+Example 1:
+
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+Example 2:
+
+Input: intervals = [[1,4],[4,5]]
+Output: [[1,5]]
+Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+ 
+
+Constraints:
+
+1 <= intervals.length <= 104
+intervals[i].length == 2
+0 <= starti <= endi <= 104
+Accepted
+1.8M
+Submissions
+3.8M
+Acceptance Rate
+46.0%
+
+
+
+
+
+C++ || Greedy Sort || Explained || Commented Code
+_prabal_singh_
+100 Days Badge 2022
+3
+a few seconds ago
+Intuition
+Some Type of Advanced Sorting & Union(grouping) is Required .
+
+Approach
+Firstly, we will sort the array on the basis on starting point of each interval.
+Secondly, we will make intervals bsed on if the next element somehow overlaps (i.e. stop only if next element does not overlap at all)
+
+Condition for not overlapping :-
+
+            ______
+    ____
+            OR
+    _______
+                ___
+Complexity
+Time complexity : O(nlogn)
+Space complexity : O(n)
+Code
+class Solution {
+public:
+    typedef pair<int,int> p;
+
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+
+        priority_queue<p,vector<p>,greater<p>> pq;  
+        vector<vector<int>> result;
+        int n = intervals.size();
+
+        //  using heap for sorting
+        for(int i=0; i<n; i++)  {
+            pq.push({intervals[i][0],intervals[i][1]});
+        }
+
+        intervals.clear();
+
+        while(!pq.empty())  {
+            auto it = pq.top();
+            pq.pop();
+            int start = it.first;
+            int end = it.second;
+            vector<int> temp;
+            temp.push_back(start);
+            temp.push_back(end);
+            intervals.push_back(temp);
+        }  
+
+        for(int i=0; i<n; i++)  {
+            int upperLimit = intervals[i][1];
+            int lowerLimit = intervals[i][0];
+
+        //condition for interval 
+            while( !(intervals[i][1]<lowerLimit || upperLimit<intervals[i][0])    )   {
+                upperLimit = max(upperLimit,intervals[i][1]);
+                lowerLimit = min(lowerLimit,intervals[i][0]);
+                i++;
+                if(i==n)    {
+                    vector<int> layer;
+                    layer.push_back(lowerLimit);
+                    layer.push_back(upperLimit);
+                    result.push_back(layer);
+                    return result;
+                }
+                
+            }
+
+            vector<int> layer;
+            layer.push_back(lowerLimit);
+            layer.push_back(upperLimit);
+            result.push_back(layer);
+            
+            i--;
+        }
+
+        return result;
+
+    }
+};
+
+
+
+// (intervals[i][0]<=upperLimit && intervals[i][1]>=upperLimit) || 
+//                     (intervals[i][0]<=lowerLimit && intervals[i][1]>=lowerLimit) ||
+//                     (intervals[i][0]<=lowerLimit && intervals[i][1]>=upperLimit) ||
+//                     (intervals[i][0]>=lowerLimit && intervals[i][1]<=upperLimit)
